@@ -13,6 +13,10 @@ BASE_PATH = Path(__file__).resolve().parent
 BALL_WIDTH_HEIGHT = 100
 MAX_WIDTH = WINDOW_WIDTH - BALL_WIDTH_HEIGHT
 MAX_HEIGHT = WINDOW_HEIGHT - BALL_WIDTH_HEIGHT
+TARGET_X = 400
+TARGET_Y = 320
+TARGET_WIDTH_HEIGHT = 120
+N_PIXELS_TO_MOVE =3
 
 #3 INITIALIZE THE WOLRD 
 pygame.init()
@@ -21,10 +25,11 @@ clock = pygame.time.Clock()
 
 #4 load assets:image(s), sound(s),etc.
 ballImage = pygame.image.load('images/ball.png')
-
+targetImage = pygame.image.load('images/target.png')
 #5 initialize variables
 ballx = random.randrange(MAX_WIDTH)
 bally = random.randrange(MAX_HEIGHT)
+targetRect = pygame.Rect(TARGET_X, TARGET_Y, TARGET_WIDTH_HEIGHT, TARGET_WIDTH_HEIGHT)
 
 ballRect = pygame.Rect(ballx, bally, BALL_WIDTH_HEIGHT, BALL_WIDTH_HEIGHT)
 #6 loop forever
@@ -45,15 +50,33 @@ while True:
                 bally = random.randrange(MAX_HEIGHT)
                 ballRect = pygame.Rect(ballx, bally, BALL_WIDTH_HEIGHT, BALL_WIDTH_HEIGHT)
                 
+        #see user a pressed a key
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                ballx = ballx - N_PIXELS_TO_MOVE
+            elif event.key == pygame.K_RIGHT:
+                ballx = ballx + N_PIXELS_TO_MOVE
+            elif event.key == pygame.K_UP:
+                bally = bally - N_PIXELS_TO_MOVE
+            elif event.key == pygame.K_DOWN:
+                bally = bally + N_PIXELS_TO_MOVE
+                
+                
+                
                 
     
     #8 Do any "per frame" actions
-         
+    
+    #Check if the ball is collinding with target
+    ballRect = pygame.Rect(ballx, bally, BALL_WIDTH_HEIGHT, BALL_WIDTH_HEIGHT)
+    if ballRect.colliderect(targetRect):
+        print("Ball is touching the target")
     #9 clear window
     window.fill(BLACK)
     
     #10 Draw all window elements
     #Draw ball at randomized location
+    window.blit(targetImage, (TARGET_X, TARGET_Y))
     window.blit(ballImage, (ballx, bally))
     
     #Update the window
