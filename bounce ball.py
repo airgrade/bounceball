@@ -66,6 +66,12 @@ while True:
                 
     
     #8 Do any "per frame" actions
+    #check for users pressing keys
+    keyPressedTuple = pygame.key.get_pressed()
+    
+    if keyPressedTuple[pygame.K_LEFT]: #Moving left
+        ballx = ballx -N_PIXELS_TO_MOVE
+        
     
     #Check if the ball is collinding with target
     ballRect = pygame.Rect(ballx, bally, BALL_WIDTH_HEIGHT, BALL_WIDTH_HEIGHT)
